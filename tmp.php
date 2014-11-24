@@ -1,21 +1,20 @@
 <?php
 $im      = isset($_GET['im']) ? $_GET['im'] : 'NO_IMAGE';
-$maxsize = isset($_GET['ms']) ? $_GET['ms'] : '100';   
             
-
-
 // The file
 $filename = $im;
 
-// Set a maximum height and width
-$width  = $maxsize;
-$height = $maxsize;
+// Get new dimensions
+list($width_orig, $height_orig) = getimagesize($filename);
 
+$maxsize = isset($_GET['ms']) ? $_GET['ms'] : $width_orig;   
+
+// Set a maximum height and width
+$height = $maxsize;
+$width  = $maxsize;	
 // Content type
 header('Content-type: image/jpeg');
 
-// Get new dimensions
-list($width_orig, $height_orig) = getimagesize($filename);
 
 if ($width && ($width_orig < $height_orig)) {
 	$width = ($height / $height_orig) * $width_orig;
